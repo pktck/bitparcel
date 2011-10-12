@@ -106,7 +106,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/pktck/bitparcel/www/main/templates',
+    '/home/ubuntu/bitparcel/www/main/templates',
 )
 
 INSTALLED_APPS = (
@@ -144,3 +144,5 @@ LOGGING = {
         },
     }
 }
+
+STATIC_DIR = '/home/ubuntu/bitparcel/www/static'

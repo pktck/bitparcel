@@ -3,4 +3,4 @@ from django.shortcuts import render_to_response
 
 
 def front(req):
-    return HttpResponse('Here I am!')
+    return render_to_response('front.html', locals())

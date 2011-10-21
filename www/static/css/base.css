@@ -1,0 +1,47 @@
+body {
+    background-color: black;
+    font-family: "Courier New", monospace;
+    color: green;
+}
+
+#logo {
+    border: none;
+}
+
+#centered {
+    margin: 0px auto 0px auto;
+    width: 500px;
+}
+
+#instructions {
+    font-size: 40px;
+    margin-top: 100px;
+}
+
+#download-link {
+     border: 1px solid #888;
+     padding: 2px 5px 2px 5px;
+     margin-top: 15px;
+     font-size: 16px;
+     color: #555;
+     background-color: #0a0a0a;
+}
+
+#now-downloading {
+    margin-top: 80px;
+    font-size: 30px;
+    text-align: center;
+}
+
+#ad {
+    width: 300px;
+    margin: 0px auto 0px auto;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 10px;
+    color: #555;
+}
+
+#ad-img {
+    border: none;
+}

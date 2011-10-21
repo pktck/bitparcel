@@ -1,10 +1,26 @@
-<html>
-    <head>
-        <title>bitparcel ~ share files with friends | share files - upload files - send files - download files</title>
-        <link href="/static/front.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        I'm da body!
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+bitparcel ~ share files with friends | share files - upload files - send files - download files
+{% endblock %}
+
+{% block content %}
+<div id="instructions">
+    1. Drag a file here <br />
+    &nbsp;&nbsp;&nbsp;to share. <br />
+    <br />
+    2. Use this link <br />
+    &nbsp;&nbsp;&nbsp;to download. <br />
+    <div id="download-link">
+        http://bitparcel.com/?????/YourFile.zip
+    </div>
+</div>
+<div style="background-color: white; margin-top: 20px;">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="thefile" size=100 />
+        <br />
+        <input type="submit" value="Upload" />
+    </form>
+</div>
+{% endblock %}
 

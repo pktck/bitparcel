@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ row.filename }} | Bitparcel
+{% endblock %}
+
+{% block content %}
+<div id="ad">
+    <a href="http://www.dropbox.com/">
+        <img id="ad-img" src="/static/images/dropbox.jpg" />
+    </a>
+    (advertizement)
+</div>
+<div id="now-downloading">
+    Now downloading
+    <br />
+    <i>{{ row.filename }}</i>...
+</div>
+
+<iframe src="{{ file_url }}" style="display: none;"></iframe>
+{% endblock %}

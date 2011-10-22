@@ -4,6 +4,10 @@ body {
     color: green;
 }
 
+.body-hover {
+    background-color: #555;
+}
+
 #logo {
     border: none;
 }
@@ -19,12 +23,17 @@ body {
 }
 
 #download-link {
-     border: 1px solid #888;
-     padding: 2px 5px 2px 5px;
-     margin-top: 15px;
-     font-size: 16px;
-     color: #555;
+     margin-top: 25px;
      background-color: #0a0a0a;
+}
+
+.download-link-waiting {
+    border: 1px solid #888;
+}
+
+.download-link-downloading {
+    /*border: 1px solid yellow;*/
+    border: 1px solid #888;
 }
 
 #now-downloading {
@@ -44,4 +53,33 @@ body {
 
 #ad-img {
     border: none;
+}
+
+#progress-bar {
+    width: 0px;
+    background-color: green;
+}
+
+#download-link-text {
+    padding: 2px 5px 2px 5px;
+    font-size: 16px;
+    background-color: inherit;
+    border: none;
+    font-family: "Courier New", monospace;
+    width: 498px;
+}
+
+.download-link-text-waiting {
+     color: #555;
+}
+
+.download-link-text-finished {
+     color: white;
+}
+
+#status {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 20px;
+    color: #aaa;
 }

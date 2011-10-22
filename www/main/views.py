@@ -13,7 +13,7 @@ def upload(req):
 
     download_key = helper.storeFile(thefile)
 
-    return HttpResponse('Download your file at: %s' % req.build_absolute_uri(download_key), mimetype='text/plain')
+    return HttpResponse(req.build_absolute_uri('%s/%s' % (download_key, thefile.name)), mimetype='text/plain')
 
 
 def download(req, download_key, filename):

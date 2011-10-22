@@ -11,16 +11,52 @@ bitparcel ~ share files with friends | share files - upload files - send files -
     <br />
     2. Use this link <br />
     &nbsp;&nbsp;&nbsp;to download. <br />
-    <div id="download-link">
-        http://bitparcel.com/?????/YourFile.zip
+    <div id="download-link" class="download-link-waiting">
+        <div id="progress-bar">
+            <div>
+                <input id="download-link-text" class="download-link-text-waiting"
+                type="text" value="http://bitparcel.com/?????/YourFile.zip" readonly onclick="this.select()" />
+            </div>
+        </div>
+    </div>
+    <div id="status">
     </div>
 </div>
-<div style="background-color: white; margin-top: 20px;">
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" name="thefile" size=100 />
-        <br />
-        <input type="submit" value="Upload" />
-    </form>
-</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script src="/static/js/file-upload/jquery.iframe-transport.js"></script>
+<script src="/static/js/file-upload/jquery.fileupload.js"></script>
+<script>
+    $('body').fileupload({
+        url: '/upload',
+        paramName: 'thefile',
+        dragover: function() {
+            $('body').addClass('body-hover');
+        },
+        drop: function() {
+            $('body').removeClass('body-hover');
+            $('#download-link').removeClass('download-link-waiting').addClass('download-link-downloading');
+        },
+        done: function(e, data) {
+            $('#download-link-text').val(data.result).removeClass('download-link-text-waiting').addClass('download-link-text-finished');
+            $('#status').html('Upload complete!');
+        },
+        fail: function() {
+            alert('There was an error uploading your file. Please try again.');
+        },
+        progress: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            var progressBarWidth = parseInt(data.loaded / data.total * 498, 10);
+            $('#progress-bar').css('width', progressBarWidth + 'px');
+
+            if(progress < 100)
+                $('#status').html(progress + '%');
+            else
+                $('#status').html('Completing upload...');
+
+        },
+    });
+</script>
+
 {% endblock %}
 

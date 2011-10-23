@@ -22,15 +22,17 @@ def download(req, download_key, filename):
     if (not filename) or (filename != url_filename):
         return HttpResponseRedirect('/%s/%s' % (download_key, url_filename))
     
-    file_url = '/files/%s/%s' % (download_key, row.file_key)
+    file_url = '/files/%s/%s/%s' % (download_key, row.file_key, row.filename)
 
     return render_to_response('download.html', locals())
    
 
-def downloadFile(req, download_key, file_key):
+def downloadFile(req, download_key, file_key, filename):
     row = helper.getRow(download_key)
     if row.file_key != file_key:
         raise Exception("Download_key and file_key don't match.")
+    if row.filename != filename:
+        raise Exception("Download_key and file_key don't match filename.")
 
     #thefile = helper.getFile(file_key)
     key_obj = helper.getKeyObj(file_key)

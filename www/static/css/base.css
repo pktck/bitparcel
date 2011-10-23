@@ -111,8 +111,15 @@ body {
 
 
 #flashContainer {
+    position: absolute;
+    width: 175px;
+    height: 50px;
+}
+
+#save-button-wrapper {
     width: 175px;
     margin: 30px auto 0px auto;
+    visibility: hidden;
 }
 
 .button-standard {

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block includes %}
-        <script type="text/javascript" src="/static/flash-file-downloader/swfobject.js"></script>
+        <script type="text/javascript" src="/static/js/swfobject.js"></script>
         <script type="text/javascript" src="/static/flash-file-downloader/FlashFileDownloader.js"></script>
 {% endblock %}
 
@@ -28,13 +28,14 @@
     </div>
 </div>
 
-<div id="flashContainer">
+<div id="save-button-wrapper">
+    <div id="flashContainer"></div>
     <div id="save-button-text" class="button-standard">Save file</div>
 </div>
 
 <script>
-    FlashFileDownloader.flashPath = '/static/flash-file-downloader/FlashFileDownloader.swf'
-    FlashFileDownloader.download("{{ file_url }}",
+    FileDownloader.flashPath = '/static/flash-file-downloader/FlashFileDownloader.swf'
+    FileDownloader.download("{{ file_url }}",
     {
         'progress' : function(obj) {
             var percentage = parseInt(obj.bytesLoaded / obj.bytesTotal * 100);
@@ -43,7 +44,7 @@
             $('#download-progress-bar-percentage').html(percentage + '%');
         },
         'success' : function(obj) {
-            alert('File downlaod complete!');
+            $('#save-button-wrapper').css('visibility', 'visible');
         },
         'failure' : function(obj) {
             alert('There was an error downloading your file. Please try again.');

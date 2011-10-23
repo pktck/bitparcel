@@ -36,5 +36,6 @@ def downloadFile(req, download_key, file_key):
 
     response = HttpResponse(thefile.read(), mimetype='application/octet-stream')
     response['Content-Disposition'] = 'attachment; filename=%s' % row.filename
+    response['Content-Length'] = row.size
     return response
  

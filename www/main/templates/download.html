@@ -4,6 +4,11 @@
 {{ row.filename }} | Bitparcel
 {% endblock %}
 
+{% block includes %}
+        <script type="text/javascript" src="/static/flash-file-downloader/swfobject.js"></script>
+        <script type="text/javascript" src="/static/flash-file-downloader/asdownloader.js"></script>
+{% endblock %}
+
 {% block content %}
 <div id="ad">
     <a href="http://www.dropbox.com/">
@@ -12,13 +17,42 @@
     (advertizement)
 </div>
 <div id="now-downloading">
-    Now downloading
-    <br />
-    <i>{{ row.filename }}</i>...
+    <i>{{ row.filename }}</i>
 </div>
 
+<div id="download-progress-bar-wrapper">
+    <div id="download-progress-bar">
+        <div id="download-progress-bar-percentage">
+            Begining download...
+        </div>
+    </div>
+</div>
+
+<div id="flashContainer">
+    <div id="save-button-text" class="button-standard">Save file</div>
+</div>
+
+<script>
+    ASDownloader.flashPath = '/static/flash-file-downloader/asdownloader.swf'
+    ASDownloader.download("{{ file_url }}",
+    {
+        'progress' : function(obj) {
+            var percentage = (obj.bytesLoaded / obj.bytesTotal * 100);
+            var width = (obj.bytesLoaded / obj.bytesTotal * 698);
+            $('#download-progress-bar').css('width', width + 'px')
+            $('#download-progress-bar-percentage').html(percentage + '%');
+        },
+        'success' : function(obj) {
+            alert('File downlaod complete!');
+        },
+        'failure' : function(obj) {
+            alert('There was an error downloading your file. Please try again.');
+        },
+    });
+
+    $('#save-button-text').mousedown(function() {$(this).removeClass('button-standard').addClass('button-pressed');});
+    $('#save-button-text').mouseup(function() {$(this).removeClass('button-pressed').addClass('button-standard');});
+</script>
+
 {% endblock %}
 
-{% block body-onload %}
-document.body.innerHTML += "<iframe src="{{ file_url }}" style="display: none;"></iframe>";
-{% endblock %}

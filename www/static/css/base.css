@@ -90,3 +90,55 @@ body {
     font-size: 20px;
     color: #aaa;
 }
+
+#download-progress-bar-wrapper {
+    border: 1px solid #aaa;
+    margin-top: 30px;
+}
+
+#download-progress-bar {
+    width: 0px;
+    /*height: 20px;*/
+    background-color: green;
+}
+
+#download-progress-bar-percentage {
+    color: white;
+    text-align: center;
+    width: 698px;
+    padding: 2px;
+}
+
+
+#flashContainer {
+    width: 175px;
+    margin: 30px auto 0px auto;
+}
+
+.button-standard {
+    border-top: 3px solid #0d0;
+    border-left: 3px solid #0c0;
+    border-right: 3px solid #030;
+    border-bottom: 3px solid #030;
+}
+
+.button-pressed {
+    border-bottom: 3px solid #0d0;
+    border-right: 3px solid #0c0;
+    border-left: 3px solid #030;
+    border-top: 3px solid #030;
+}
+
+#save-button-text {
+    color: white;
+    background-color: #080;
+    text-align: center;
+    font-size: 25px;
+    display: table-cell;
+    vertical-align: middle;
+    width: 175px;
+    height: 50px;
+    border-radius: 15px;
+}
+
+                                                                                                                        }

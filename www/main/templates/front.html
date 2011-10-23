@@ -10,7 +10,7 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         1. Drag a file here to share.
     </div>
     <div class="instruction">
-        2. Use this link to download.
+        2. Use this link to download:
     </div>
     <div id="download-link" class="download-link-waiting">
         <div id="progress-bar">
@@ -23,7 +23,6 @@ bitparcel ~ share files with friends | share files - upload files - send files -
     <div id="status">
     </div>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 <script src="/static/js/file-upload/jquery.iframe-transport.js"></script>
 <script src="/static/js/file-upload/jquery.fileupload.js"></script>
@@ -47,7 +46,7 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         },
         progress: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            var progressBarWidth = parseInt(data.loaded / data.total * 498, 10);
+            var progressBarWidth = parseInt(data.loaded / data.total * 698, 10);
             $('#progress-bar').css('width', progressBarWidth + 'px');
 
             if(progress < 100)

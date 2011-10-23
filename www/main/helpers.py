@@ -51,6 +51,11 @@ class Helper(object):
         thefile.seek(0)
         return thefile
 
+    def getKeyObj(self, file_key):
+        key_obj = Key(self.bucket)
+        key_obj.key = file_key
+        return key_obj
+
     def getFileKey(self, download_key):
         row = table.getReadOnly(download_key)
         return row.file_key

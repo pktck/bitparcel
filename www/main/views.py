@@ -32,10 +32,13 @@ def downloadFile(req, download_key, file_key):
     if row.file_key != file_key:
         raise Exception("Download_key and file_key don't match.")
 
-    thefile = helper.getFile(file_key)
+    #thefile = helper.getFile(file_key)
+    key_obj = helper.getKeyObj(file_key)
 
-    response = HttpResponse(thefile.read(), mimetype='application/octet-stream')
+    #response = HttpResponse(thefile.read(), mimetype='application/octet-stream')
+    response = HttpResponse(key_obj, mimetype='application/octet-stream')
     response['Content-Disposition'] = 'attachment; filename=%s' % row.filename
     response['Content-Length'] = row.size
     return response
- 
+
+

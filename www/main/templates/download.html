@@ -37,8 +37,8 @@
     ASDownloader.download("{{ file_url }}",
     {
         'progress' : function(obj) {
-            var percentage = (obj.bytesLoaded / obj.bytesTotal * 100);
-            var width = (obj.bytesLoaded / obj.bytesTotal * 698);
+            var percentage = parseInt(obj.bytesLoaded / obj.bytesTotal * 100);
+            var width = parseInt(obj.bytesLoaded / obj.bytesTotal * 698);
             $('#download-progress-bar').css('width', width + 'px')
             $('#download-progress-bar-percentage').html(percentage + '%');
         },

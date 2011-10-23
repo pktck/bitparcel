@@ -1,0 +1,3 @@
+[submodule "www/static/flash-file-downloader"]
+	path = www/static/flash-file-downloader
+	url = https://github.com/arturjanc/flash-file-downloader.git

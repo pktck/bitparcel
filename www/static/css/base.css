@@ -141,4 +141,11 @@ body {
     border-radius: 15px;
 }
 
-                                                                                                                        }
+#q-and-a {
+    margin-top: 500px;
+    margin-bottom: 500px;
+}
+
+#q-and-a tr {
+    vertical-align: top;
+}

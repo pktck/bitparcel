@@ -17,5 +17,8 @@
     <i>{{ row.filename }}</i>...
 </div>
 
-<iframe src="{{ file_url }}" style="display: none;"></iframe>
+{% endblock %}
+
+{% block body-onload %}
+document.body.innerHTML += "<iframe src="{{ file_url }}" style="display: none;"></iframe>";
 {% endblock %}

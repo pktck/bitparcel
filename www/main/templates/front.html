@@ -6,16 +6,17 @@ bitparcel ~ share files with friends | share files - upload files - send files -
 
 {% block content %}
 <div id="instructions">
-    1. Drag a file here <br />
-    &nbsp;&nbsp;&nbsp;to share. <br />
-    <br />
-    2. Use this link <br />
-    &nbsp;&nbsp;&nbsp;to download. <br />
+    <div class="instruction">
+        1. Drag a file here to share.
+    </div>
+    <div class="instruction">
+        2. Use this link to download.
+    </div>
     <div id="download-link" class="download-link-waiting">
         <div id="progress-bar">
             <div>
-                <input id="download-link-text" class="download-link-text-waiting"
-                type="text" value="http://bitparcel.com/?????/YourFile.zip" readonly onclick="this.select()" />
+                <textarea id="download-link-text" class="download-link-text-waiting" readonly onclick="this.select()"
+                    >http://bitparcel.com/?????/YourFile.zip</textarea>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@
         </title>
         <link href="/static/css/base.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
+    <body onload='{% block body-onload %}{% endblock %}'>
         <div id="header">
             <a href="/">
                 <img id="logo" src="/static/images/bitparcel-logo.png" />

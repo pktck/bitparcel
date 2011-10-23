@@ -14,12 +14,16 @@ body {
 
 #centered {
     margin: 0px auto 0px auto;
-    width: 500px;
+    width: 700px;
 }
 
 #instructions {
     font-size: 40px;
-    margin-top: 100px;
+    margin-top: 150px;
+}
+
+.instruction {
+    margin-top: 50px;
 }
 
 #download-link {
@@ -67,6 +71,9 @@ body {
     border: none;
     font-family: "Courier New", monospace;
     width: 498px;
+    resize: none;
+    outline: none;
+    height: 1.4em;
 }
 
 .download-link-text-waiting {

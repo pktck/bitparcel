@@ -10,9 +10,9 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         1. Drag a file here to share.
     </div>
     <div class="instruction">
-        2. Use this link to download:
+        2. Use this link to download.
     </div>
-    <div id="download-link" class="download-link-waiting">
+    <div id="download-link" class="download-link-normal">
         <div id="progress-bar">
             <div>
                 <textarea id="download-link-text" class="download-link-text-waiting" readonly onclick="this.select()"
@@ -22,6 +22,17 @@ bitparcel ~ share files with friends | share files - upload files - send files -
     </div>
     <div id="status">
     </div>
+    <div id="help-wrapper">
+        <div id="arrow">
+            &nbsp;^  <br />
+            / \ <br />
+            &nbsp;|  <br />
+            &nbsp;|  <br />
+        </div>
+        <div id="help">
+            A link to your file will appear hear once you've uploaded it.
+        </div>
+    </div>
 </div>
 
 
@@ -30,7 +41,7 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         <td>Q:</td><td>Free file hosting, ay? Seems like a pretty good deal. Are there any restrictions?</td>
     </tr>
     <tr>
-        <td>A:</td><td>You're right - it is a pretty good deal! And yes, there are restrictions.
+        <td>A:</td><td>You're right - it is a pretty good deal! And yes, there are some restrictions.
             Bitparcel will host your files for <b>1 month</b> or <b>5 downloads</b>, whichever comes first.
             Files can be up to <b>2 GB</b>.</td>
     </tr>
@@ -46,7 +57,20 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         <td>Q:</td><td>Do you offer paid / premium accounts?</td>
     </tr>
     <tr>
-        <td>A:</td><td>We're glad you asked. We're looking into this. If you're interested, send us an <u>email</u> with your thoughts.</td>
+        <td>A:</td><td>We're looking into this. If you're interested, send us an <a href="mailto:parcelmaster@bitparcel.com">email</a>
+            with your thoughts.</td>
+    </tr>
+    <tr><td>&nbsp;</td><td></td></tr>
+    <tr>
+        <td>Q:</td><td>What makes you different from all those other file sharing sites?</td>
+    </tr>
+    <tr>
+        <td>A:</td><td>We have a black background color. But seriously, Bitparcel was created out of frustration
+            that the easiest way to send a file to a friend has been to
+            <a href="http://xkcd.com/949/">drive a thumb drive to their house</a>.
+            We wanted a way to send files that didn't require creating an account, waiting forever to start downloading the file,
+            or being bombarded by ads.
+        </td>
     </tr>
 </table>
 
@@ -55,18 +79,31 @@ bitparcel ~ share files with friends | share files - upload files - send files -
 <script src="/static/js/file-upload/jquery.iframe-transport.js"></script>
 <script src="/static/js/file-upload/jquery.fileupload.js"></script>
 <script>
+    function dragStartHandler()
+    {
+        $('#download-link').removeClass('download-link-normal').addClass('download-link-hover');
+    }
+
+    function dragFinishedHandler()
+    {
+        $('#download-link').removeClass('download-link-hover').addClass('download-link-normal');
+    }
+
+    document.body.addEventListener('dragstart', dragStartHandler);
+    document.body.addEventListener('dragleave', dragFinishedHandler);
+
     $('body').fileupload({
         url: '/upload',
         paramName: 'thefile',
         dragover: function() {
-            $('body').addClass('body-hover');
+            $('#download-link').removeClass('download-link-normal').addClass('download-link-hover');
         },
         drop: function() {
-            $('body').removeClass('body-hover');
-            $('#download-link').removeClass('download-link-waiting').addClass('download-link-downloading');
+            dragFinishedHandler();
         },
         done: function(e, data) {
             $('#download-link-text').val(data.result).removeClass('download-link-text-waiting').addClass('download-link-text-finished');
+            $('#download-link').val(data.result).removeClass('download-link-normal').addClass('download-link-finished');
             $('#status').html('Upload complete!');
         },
         fail: function() {
@@ -83,6 +120,10 @@ bitparcel ~ share files with friends | share files - upload files - send files -
             $('#status').html('Completing upload...');
 
         },
+    });
+
+    $('#download-link').click(function (){
+        $('#help-wrapper').fadeIn('slow');
     });
 </script>
 

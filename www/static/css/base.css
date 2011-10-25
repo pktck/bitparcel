@@ -4,10 +4,6 @@ body {
     color: green;
 }
 
-.body-hover {
-    background-color: #555;
-}
-
 #logo {
     border: none;
 }
@@ -23,7 +19,7 @@ body {
 }
 
 .instruction {
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 #download-link {
@@ -31,13 +27,16 @@ body {
      background-color: #0a0a0a;
 }
 
-.download-link-waiting {
-    border: 1px solid #888;
+.download-link-normal {
+    border: 1px solid #777;
 }
 
-.download-link-downloading {
-    /*border: 1px solid yellow;*/
-    border: 1px solid #888;
+.download-link-hover {
+    border: 1px solid yellow;
+}
+
+.download-link-finished {
+    border: 1px solid #aaa;
 }
 
 #now-downloading {
@@ -70,14 +69,14 @@ body {
     background-color: inherit;
     border: none;
     font-family: "Courier New", monospace;
-    width: 498px;
+    width: 698px;
     resize: none;
     outline: none;
     height: 1.4em;
 }
 
 .download-link-text-waiting {
-     color: #555;
+     color: #333;
 }
 
 .download-link-text-finished {
@@ -150,9 +149,37 @@ body {
 
 #q-and-a {
     margin-top: 500px;
-    margin-bottom: 500px;
+    margin-bottom: 300px;
 }
 
 #q-and-a tr {
     vertical-align: top;
+}
+
+#q-and-a a {
+    color: green;
+}
+
+#filename {
+    color: yellow;
+    font-style: italic;
+}
+
+#help {
+    margin-top: 10px;
+    border: 1px solid yellow;
+    background-color: #880;
+    font-size: 16px;
+    padding: 2px 5px;
+    color: black;
+}
+
+#help-wrapper {
+    display: none;
+}
+
+#arrow {
+    font-size: 11px;
+    padding-left: 20px;
+    font-weight: bold;
 }

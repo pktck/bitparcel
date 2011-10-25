@@ -89,8 +89,8 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         $('#download-link').removeClass('download-link-hover').addClass('download-link-normal');
     }
 
-    document.body.addEventListener('dragstart', dragStartHandler);
-    document.body.addEventListener('dragleave', dragFinishedHandler);
+    $('body').bind('dragstart', dragStartHandler);
+    $('body').bind('dragleave', dragFinishedHandler);
 
     $('body').fileupload({
         url: '/upload',
@@ -105,6 +105,7 @@ bitparcel ~ share files with friends | share files - upload files - send files -
             $('#download-link-text').val(data.result).removeClass('download-link-text-waiting').addClass('download-link-text-finished');
             $('#download-link').val(data.result).removeClass('download-link-normal').addClass('download-link-finished');
             $('#status').html('Upload complete!');
+            $('#download-link').unbind('click');
         },
         fail: function() {
             alert('There was an error uploading your file. Please try again.');
@@ -118,7 +119,6 @@ bitparcel ~ share files with friends | share files - upload files - send files -
             $('#status').html(progress + '%');
             else
             $('#status').html('Completing upload...');
-
         },
     });
 

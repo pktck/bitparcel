@@ -22,6 +22,10 @@ body {
     margin-top: 20px;
 }
 
+.instruction-grey {
+    color: #020;
+}
+
 #download-link {
      margin-top: 25px;
      background-color: #0a0a0a;

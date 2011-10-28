@@ -187,3 +187,20 @@ body {
     padding-left: 20px;
     font-weight: bold;
 }
+
+#drop-note-wrapper {
+    display: none;
+    position: absolute;
+    height: 300px;
+}
+
+#drop-note {
+    border: 1px solid #0a0;
+    background-color: green;
+    color: white;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 20px;
+    border-radius: 20px;
+    height: 300px;
+}

@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from helpers import Helper
+import StringIO
 
 helper = Helper()
 
@@ -10,8 +11,19 @@ def front(req):
 
 def upload(req):
     thefile = req.FILES['thefile']
+    
+    file_sender = helper.storeFile(thefile.name)
 
-    download_key = helper.storeFile(thefile)
+    chunk_count = 0
+
+    for chunk in thefile.chunks():
+        #chunk = StringIO.StringIO(chunk)
+        file_sender.addChunk(chunk)
+        chunk_count += 1
+
+    print 'chunk count:', chunk_count
+
+    download_key = file_sender.completeUpload()
 
     return HttpResponse(req.build_absolute_uri('%s/%s' % (download_key, thefile.name.replace(' ', '-'))), mimetype='text/plain')
 

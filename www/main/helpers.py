@@ -11,13 +11,52 @@ AWS_SECRET_KEY = 'CESWbsOIdbHerQroDD5CRIYmcW18E3aBay8tLajN'
 DATA_DIR = '/home/ubuntu/data'
 
 
+class FileSender(object):
+    def __init__(self, row, bucket, file_key, filename):
+        self.row = row
+        self.mp = bucket.initiate_multipart_upload(file_key)
+        self.file_key = file_key
+        self.part_counter = 0
+        self.filename = filename
+        self.data = StringIO.StringIO()
+
+    def addChunk(self, chunk):
+        print 'adding chunk'
+        self.data.write(chunk)
+        if self.data.len >= 5242880:
+            self._sendPart()
+            self.data.truncate(0)
+
+    def _sendPart(self):
+        self.part_counter += 1
+        print 'sending part #', self.part_counter
+        self.mp.upload_part_from_file(self.data, self.part_counter)
+
+    def completeUpload(self):
+        print 'parts:', self.part_counter
+        size = sum([part.size for part in self.mp])
+
+        self.mp.complete_upload()
+
+        # save local metadata
+        self.row.file_key = self.file_key
+        self.row.downloads = 0
+        self.row.filename = self.filename
+        self.row.size = size
+        self.row.save()
+
+        print 'file key:', self.file_key
+
+        return self.row.getKey()
+
+
 class Helper(object):
     def __init__(self):
        self.conn = S3Connection(AWS_ACCESS_KEY, AWS_SECRET_KEY)
        self.bucket = self.conn.get_bucket('bitparcel')
        self.table = NoDB.Manager(DATA_DIR).getDatabase('bitparcel').getTable('files')
 
-    def storeFile(self, thefile):
+    def storeFile(self, filename):
         # create a new row
         while True:
             try:
@@ -30,18 +69,9 @@ class Helper(object):
         file_key = uuid.uuid1().hex
 
         # store the file on S3
-        key_obj = Key(self.bucket)
-        key_obj.key = file_key
-        key_obj.set_contents_from_file(thefile)
+        file_sender = FileSender(row, self.bucket, file_key, filename)
 
-        # save local metadata
-        row.file_key = file_key
-        row.downloads = 0
-        row.filename = thefile.name
-        row.size = thefile.size
-        row.save()
-
-        return download_key
+        return file_sender
 
     def getFile(self, file_key):
         key_obj = Key(self.bucket)

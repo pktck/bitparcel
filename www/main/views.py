@@ -16,6 +16,8 @@ def upload(req):
 
     chunk_count = 0
 
+    print "let's get chunky..."
+
     for chunk in thefile.chunks():
         #chunk = StringIO.StringIO(chunk)
         file_sender.addChunk(chunk)

@@ -21,7 +21,6 @@ class FileSender(object):
         self.data = StringIO.StringIO()
 
     def addChunk(self, chunk):
-        print 'adding chunk'
         self.data.write(chunk)
         if self.data.len >= 5242880:
             self._sendPart()
@@ -29,11 +28,13 @@ class FileSender(object):
 
     def _sendPart(self):
         self.part_counter += 1
-        print 'sending part #', self.part_counter
+        self.data.seek(0) 
         self.mp.upload_part_from_file(self.data, self.part_counter)
 
     def completeUpload(self):
-        print 'parts:', self.part_counter
+        if self.data.len > 0:
+            self._sendPart()
+
         size = sum([part.size for part in self.mp])
 
         self.mp.complete_upload()
@@ -44,8 +45,6 @@ class FileSender(object):
         self.row.filename = self.filename
         self.row.size = size
         self.row.save()
-
-        print 'file key:', self.file_key
 
         return self.row.getKey()
 

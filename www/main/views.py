@@ -1,29 +1,32 @@
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from helpers import Helper
-import StringIO
+from django.views.decorators.csrf import csrf_exempt
+from upload_handler import BitparcelUploadHandler
 
 helper = Helper()
 
 def front(req):
     return render_to_response('front.html', locals())
 
-
+@csrf_exempt
 def upload(req):
+    print 'workie?'
+
+    request.upload_handlers = [BitparcelUploadHandler()]
+
+    print 'here we go...'
     thefile = req.FILES['thefile']
+    print 'yar!'
     
     file_sender = helper.storeFile(thefile.name)
 
-    chunk_count = 0
-
-    print "let's get chunky..."
+    chunk_counter = 0
 
     for chunk in thefile.chunks():
-        #chunk = StringIO.StringIO(chunk)
+        chunk_counter += 1
+        print 'mmm, chunky', chunk_counter
         file_sender.addChunk(chunk)
-        chunk_count += 1
-
-    print 'chunk count:', chunk_count
 
     download_key = file_sender.completeUpload()
 

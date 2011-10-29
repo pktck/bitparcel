@@ -11,25 +11,11 @@ def front(req):
 
 @csrf_exempt
 def upload(req):
-    print 'workie?'
-
-    request.upload_handlers = [BitparcelUploadHandler()]
-
-    print 'here we go...'
-    thefile = req.FILES['thefile']
-    print 'yar!'
+    req.upload_handlers = [BitparcelUploadHandler()]
     
-    file_sender = helper.storeFile(thefile.name)
-
-    chunk_counter = 0
-
-    for chunk in thefile.chunks():
-        chunk_counter += 1
-        print 'mmm, chunky', chunk_counter
-        file_sender.addChunk(chunk)
-
-    download_key = file_sender.completeUpload()
-
+    thefile = req.FILES['thefile']
+    download_key = thefile.download_key
+    
     return HttpResponse(req.build_absolute_uri('%s/%s' % (download_key, thefile.name.replace(' ', '-'))), mimetype='text/plain')
 
 

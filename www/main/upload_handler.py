@@ -1,6 +1,6 @@
 from django.core.files.uploadhandler import FileUploadHandler
 from django.core.files.uploadedfile import UploadedFile
-from helpers import Helper
+from helpers import FileGetter, bucket, files_table
 from NoDB import RowAlreadyExists
 import random
 import string
@@ -16,7 +16,7 @@ class FileSender(object):
    
         file_key = uuid.uuid1().hex
 
-        self.mp = Helper.bucket.initiate_multipart_upload(file_key)
+        self.mp = bucket.initiate_multipart_upload(file_key)
 
         self.row.file_key = file_key
         self.row.filename = filename
@@ -27,7 +27,7 @@ class FileSender(object):
         while True:
             try:
                 download_key = self.generateDownloadKey()
-                row = Helper.files_table.createLocked(download_key)
+                row = files_table.createLocked(download_key)
                 break
             except RowAlreadyExists:
                 continue

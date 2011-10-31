@@ -17,7 +17,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'main.views.front'),
-    url(r'^test$', 'main.views.test'),
     url(r'^upload$', 'main.views.upload'),
     url(r'^files/(?P<download_key>.*?)/(?P<file_key>.*?)/(?P<filename>.*?)$', 'main.views.downloadFile'),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DIR}),

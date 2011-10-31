@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render_to_response
-from helpers import Helper
+from helpers import FileGetter
 from django.views.decorators.csrf import csrf_exempt
 from upload_handler import BitparcelUploadHandler
 
@@ -8,18 +8,18 @@ from upload_handler import BitparcelUploadHandler
 def front(req):
     return render_to_response('front.html', locals())
 
+
 @csrf_exempt
 def upload(req):
     req.upload_handlers = [BitparcelUploadHandler()]
     
     thefile = req.FILES['thefile']
-    download_key = thefile.download_key
     
-    return HttpResponse(req.build_absolute_uri('%s/%s' % (download_key, thefile.name.replace(' ', '-'))), mimetype='text/plain')
+    return HttpResponse(req.build_absolute_uri('%s/%s' % (thefile.download_key, thefile.name.replace(' ', '-'))), mimetype='text/plain')
 
 
 def download(req, download_key, filename):
-    row = Helper.getRow(download_key)
+    row = FileGetter.getRow(download_key)
     url_filename = row.filename.replace(' ', '-')
     if (not filename) or (filename != url_filename):
         return HttpResponseRedirect('/%s/%s' % (download_key, url_filename))
@@ -30,13 +30,13 @@ def download(req, download_key, filename):
    
 
 def downloadFile(req, download_key, file_key, filename):
-    row = Helper.getRow(download_key)
+    row = FileGetter.getRow(download_key)
     if row.file_key != file_key:
         raise Exception("Download_key and file_key don't match.")
     if row.filename != filename:
         raise Exception("Download_key and file_key don't match filename.")
 
-    key_obj = Helper.getKeyObj(file_key)
+    key_obj = FileGetter.getKeyObj(file_key)
 
     #response = HttpResponse(thefile.read(), mimetype='application/octet-stream')
     response = HttpResponse(key_obj, mimetype='application/octet-stream')

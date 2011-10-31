@@ -7,14 +7,14 @@ AWS_SECRET_KEY = 'CESWbsOIdbHerQroDD5CRIYmcW18E3aBay8tLajN'
 DATA_DIR = '/home/ubuntu/data'
 
 
-class Helper(object):
-    # connection to S3 is made when module is first imported
-    bucket = S3Connection(AWS_ACCESS_KEY, AWS_SECRET_KEY).get_bucket('bitparcel')
-    files_table = NoDB.Manager(DATA_DIR).getDatabase('bitparcel').getTable('files')
+# connection to S3 is made when module is first imported
+bucket = S3Connection(AWS_ACCESS_KEY, AWS_SECRET_KEY).get_bucket('bitparcel')
+files_table = NoDB.Manager(DATA_DIR).getDatabase('bitparcel').getTable('files')
 
+class FileGetter(object):
     @classmethod
     def getFile(cls, file_key):
-        key_obj = Key(cls.bucket)
+        key_obj = Key(bucket)
         key_obj.key = file_key
         thefile = StringIO.StringIO()
         key_obj.get_file(thefile)
@@ -23,7 +23,7 @@ class Helper(object):
 
     @classmethod
     def getKeyObj(cls, file_key):
-        key_obj = Key(cls.bucket)
+        key_obj = Key(bucket)
         key_obj.key = file_key
         return key_obj
 
@@ -34,7 +34,7 @@ class Helper(object):
 
     @classmethod
     def getRow(cls, download_key):
-        row = cls.files_table.getReadOnly(download_key)
+        row = files_table.getReadOnly(download_key)
         return row
 
 

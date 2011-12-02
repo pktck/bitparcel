@@ -1,7 +1,7 @@
 from django.core.files.uploadhandler import FileUploadHandler
 from django.core.files.uploadedfile import UploadedFile
 from helpers import FileGetter, bucket, files_table
-from NoDB import RowAlreadyExists
+from NoDB.errors import RowAlreadyExists
 import random
 import string
 import uuid
@@ -15,6 +15,7 @@ class FileSender(object):
         self.row = self.createNewRow()
    
         file_key = uuid.uuid1().hex
+        print file_key
 
         self.mp = bucket.initiate_multipart_upload(file_key)
 

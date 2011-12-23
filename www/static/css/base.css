@@ -1,7 +1,11 @@
 body {
-    background-color: black;
-    font-family: "Courier New", monospace;
-    color: green;
+    /*background-color: black;*/
+    font-family: sans-serif;
+    color: #1F75CC;
+}
+#header
+{
+    font-size: 40px;
 }
 
 #logo {
@@ -28,7 +32,7 @@ body {
 
 #download-link {
      margin-top: 25px;
-     background-color: #0a0a0a;
+     /*background-color: #0a0a0a;*/
 }
 
 .download-link-normal {
@@ -172,7 +176,7 @@ body {
 #help {
     margin-top: 10px;
     border: 1px solid yellow;
-    background-color: #880;
+    background-color: yellow;
     font-size: 16px;
     padding: 2px 5px;
     color: black;
@@ -203,4 +207,9 @@ body {
     padding: 20px;
     border-radius: 20px;
     height: 300px;
+}
+
+#login iframe
+{
+    width: 100%;
 }

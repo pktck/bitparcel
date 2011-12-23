@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-bitparcel ~ share files with friends | share files - upload files - send files - download files
+drag n' share
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         <div id="progress-bar">
             <div>
                 <textarea id="download-link-text" class="download-link-text-waiting" readonly onclick="this.select()"
-                    >http://bitparcel.com/?????/YourFile.zip</textarea>
+                    >http://db.tt/m/??????</textarea>
             </div>
         </div>
     </div>
@@ -40,45 +40,9 @@ bitparcel ~ share files with friends | share files - upload files - send files -
     </div>
 </div>
 
-
-<table id="q-and-a">
-    <tr>
-        <td>Q:</td><td>Free file hosting, ay? Seems like a pretty good deal. Are there any restrictions?</td>
-    </tr>
-    <tr>
-        <td>A:</td><td>You're right - it is a pretty good deal! And yes, there are some restrictions.
-            Bitparcel will host your files for <b>1 month</b> or <b>5 downloads</b>, whichever comes first.
-            Files can be up to <b>2 GB</b>.</td>
-    </tr>
-    <tr><td>&nbsp;</td><td></td></tr>
-    <tr>
-        <td>Q:</td><td>Can I social Twitter Facebook my files?</td>
-    </tr>
-    <tr>
-        <td>A:</td><td>What? No.</td>
-    </tr>
-    <tr><td>&nbsp;</td><td></td></tr>
-    <tr>
-        <td>Q:</td><td>Do you offer paid / premium accounts?</td>
-    </tr>
-    <tr>
-        <td>A:</td><td>We're looking into this. If you're interested, send us an <a href="mailto:parcelmaster@bitparcel.com">email</a>
-            with your thoughts.</td>
-    </tr>
-    <tr><td>&nbsp;</td><td></td></tr>
-    <tr>
-        <td>Q:</td><td>What makes you different from all those other file sharing sites?</td>
-    </tr>
-    <tr>
-        <td>A:</td><td>We have a black background color...
-            But seriously, Bitparcel was created out of frustration
-            that the easiest way to send a file to a friend has been to
-            <a href="http://xkcd.com/949/">drive a thumb drive to their house</a>.
-            We wanted a way to send files that didn't require creating an account, waiting forever to start downloading the file,
-            or being bombarded by ads.
-        </td>
-    </tr>
-</table>
+<div id="login">
+    <a href="">Click here to login to your Dropbox account.</a>
+</div>
 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>

@@ -10,14 +10,15 @@ import StringIO
 
 class FileSender(object):
     def __init__(self, filename):
-        self.part_counter = 0
+        #self.part_counter = 0 
 
         self.row = self.createNewRow()
    
         file_key = uuid.uuid1().hex
         print file_key
 
-        self.mp = bucket.initiate_multipart_upload(file_key)
+        #self.mp = bucket.initiate_multipart_upload(file_key)
+        self.fp = StringIO.StringIO()
 
         self.row.file_key = file_key
         self.row.filename = filename
@@ -36,17 +37,18 @@ class FileSender(object):
         return row
 
     def sendChunk(self, chunk):
-        self.part_counter += 1
-        chunk_fp = StringIO.StringIO(chunk)
-        self.mp.upload_part_from_file(chunk_fp, self.part_counter)
+        #self.part_counter += 1
+        #chunk_fp = StringIO.StringIO(chunk)
+        #self.mp.upload_part_from_file(chunk_fp, self.part_counter)
+        self.fp.write(chunk)
 
     def completeUpload(self, file_size):
-        mp_file_size = sum([part.size for part in self.mp])
+        #mp_file_size = sum([part.size for part in self.mp])
 
-        if file_size != mp_file_size:
-            raise Exception("Uploaded file size doesn't match computed file size.")
+        #if file_size != mp_file_size:
+            #raise Exception("Uploaded file size doesn't match computed file size.")
 
-        self.mp.complete_upload()
+        #self.mp.complete_upload()
 
         # save local metadata
         self.row.size = file_size

@@ -5,8 +5,8 @@ Bitparcel | {{ row.filename }}
 {% endblock %}
 
 {% block includes %}
-        <script type="text/javascript" src="/static/js/swfobject.js"></script>
-        <script type="text/javascript" src="/static/flash-file-downloader/FlashFileDownloader.js"></script>
+        <!--<script type="text/javascript" src="/static/js/swfobject.js"></script>-->
+        <!--<script type="text/javascript" src="/static/flash-file-downloader/FlashFileDownloader.js"></script>-->
 {% endblock %}
 
 {% block content %}
@@ -28,31 +28,41 @@ Bitparcel | {{ row.filename }}
     </div>
 </div>
 
-<div id="save-button-wrapper">
-    <div id="flashContainer"></div>
-    <div id="save-button-text" class="button-standard">Save file</div>
-</div>
-
 <script>
-    FileDownloader.flashPath = '/static/flash-file-downloader/FlashFileDownloader.swf'
-    FileDownloader.download("{{ file_url }}",
-    {
-        'progress' : function(obj) {
-            var percentage = parseInt(obj.bytesLoaded / obj.bytesTotal * 100);
-            var width = parseInt(obj.bytesLoaded / obj.bytesTotal * 698);
-            $('#download-progress-bar').css('width', width + 'px')
-            $('#download-progress-bar-percentage').html(percentage + '%');
-        },
-        'success' : function(obj) {
-            $('#save-button-wrapper').css('visibility', 'visible');
-        },
-        'failure' : function(obj) {
-            alert('There was an error downloading your file. Please try again.');
-        },
-    });
+    var file_size = {{ row.size }};
+    var download_session_key = '{{ download_session_key }}';
 
-    $('#save-button-text').mousedown(function() {$(this).removeClass('button-standard').addClass('button-pressed');});
-    $('#save-button-text').mouseup(function() {$(this).removeClass('button-pressed').addClass('button-standard');});
+    function getProgressUpdate()
+    {
+        $.ajax({
+            url: '/progress/' + download_session_key,
+            dataType: 'json',
+            success: updateProgressBar});
+    }
+
+    function updateProgressBar(data)
+    {
+        var percentage = parseInt(data.downloaded_size / file_size * 100);
+        var width = parseInt(data.downloaded_size / file_size * 698);
+        $('#download-progress-bar').css('width', width + 'px')
+        $('#download-progress-bar-percentage').html(percentage + '%');
+        if (data.downloaded_size == file_size)
+        {
+            clearInterval(interval_id);
+            $('#download-progress-bar-percentage').html('Downlaod complete!');
+        }
+
+    }
+
+    var interval_id = setInterval(getProgressUpdate, 1000);
+
+    function downloadFile()
+    {
+        window.location = '{{ file_url }}';
+    }
+
+    document.body.onload = downloadFile;
+
 </script>
 
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render_to_response
-from helpers import FileGetter
+from helpers import FileGetter, BitparcelDownload, DownloadSession
 from django.views.decorators.csrf import csrf_exempt
 from upload_handler import BitparcelUploadHandler
 
@@ -24,24 +24,26 @@ def download(req, download_key, filename):
     if (not filename) or (filename != url_filename):
         return HttpResponseRedirect('/%s/%s' % (download_key, url_filename))
     
-    file_url = '/files/%s/%s/%s' % (download_key, row.file_key, row.filename)
+    download_session_key = DownloadSession.create()
+
+    file_url = '/files/%s/%s/%s/%s' % (download_key, row.file_key, download_session_key, row.filename)
 
     return render_to_response('download.html', locals())
    
 
-def downloadFile(req, download_key, file_key, filename):
-    row = FileGetter.getRow(download_key)
-    if row.file_key != file_key:
-        raise Exception("Download_key and file_key don't match.")
-    if row.filename != filename:
-        raise Exception("Download_key and file_key don't match filename.")
+def downloadFile(req, download_key, file_key, download_session_key, filename):
+    print 'download_session_key:', download_session_key
+    bitparcel_download = BitparcelDownload(download_key, file_key, download_session_key, filename)
 
-    key_obj = FileGetter.getKeyObj(file_key)
+    response = HttpResponse(bitparcel_download.getChunkyKeyObj(), mimetype='application/octet-stream')
+    response['Content-Disposition'] = 'attachment; filename=%s' % bitparcel_download.row.filename
+    response['Content-Length'] = bitparcel_download.row.size
 
-    #response = HttpResponse(thefile.read(), mimetype='application/octet-stream')
-    response = HttpResponse(key_obj, mimetype='application/octet-stream')
-    response['Content-Disposition'] = 'attachment; filename=%s' % row.filename
-    response['Content-Length'] = row.size
     return response
+
+
+def progress(req, download_session_key):
+   downloaded_size = DownloadSession.get(download_session_key).downloaded_size
+   return HttpResponse('{"downloaded_size": %s}' % downloaded_size, mimetype='application/json')
 
 

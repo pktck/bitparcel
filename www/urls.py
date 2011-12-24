@@ -18,7 +18,8 @@ urlpatterns = patterns('',
 
     url(r'^$', 'main.views.front'),
     url(r'^upload$', 'main.views.upload'),
-    url(r'^files/(?P<download_key>.*?)/(?P<file_key>.*?)/(?P<filename>.*?)$', 'main.views.downloadFile'),
+    url(r'^files/(?P<download_key>.*?)/(?P<file_key>.*?)/(?P<download_session_key>.*?)/(?P<filename>.*?)$', 'main.views.downloadFile'),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DIR}),
-    url(r'^(?P<download_key>.{5})(/(?P<filename>.*))?$', 'main.views.download'),
+    url(r'^progress/(?P<download_session_key>.*?)$', 'main.views.progress'),
+    url(r'^(?P<download_key>.*?)(/(?P<filename>.*))?$', 'main.views.download'),
 )

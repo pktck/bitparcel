@@ -12,7 +12,8 @@ class FileSender(object):
     def __init__(self, filename):
         self.part_counter = 0
 
-        self.row = self.createNewRow()
+        #self.row = self.createNewRow()
+        self.row = files_table.createLockedWithUniqueKey(5)
    
         file_key = uuid.uuid1().hex
         print file_key
@@ -23,17 +24,17 @@ class FileSender(object):
         self.row.filename = filename
         self.row.downloads = 0
 
-    def createNewRow(self):
+    #def createNewRow(self):
         # create a new row
-        while True:
-            try:
-                download_key = self.generateDownloadKey()
-                row = files_table.createLocked(download_key)
-                break
-            except RowAlreadyExists:
-                continue
+        #while True:
+            #try:
+                #download_key = self.generateDownloadKey()
+                #row = files_table.createLocked(download_key)
+                #break
+            #except RowAlreadyExists:
+                #continue
     
-        return row
+        #return row
 
     def sendChunk(self, chunk):
         self.part_counter += 1
@@ -54,8 +55,8 @@ class FileSender(object):
 
         return self.row.getKey()
 
-    def generateDownloadKey(self):
-        return ''.join([random.choice(string.ascii_letters + string.digits) for i in range(5)])
+    #def generateDownloadKey(self):
+        #return ''.join([random.choice(string.ascii_letters + string.digits) for i in range(5)])
 
 
 class BitparcelUploadHandler(FileUploadHandler):

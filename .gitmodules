@@ -1,3 +1,0 @@
-[submodule "www/static/flash-file-downloader"]
-	path = www/static/flash-file-downloader
-	url = git@github.com:pktck/flash-file-downloader.git

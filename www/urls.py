@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'main.views.front'),
+    url(r'^favicon.ico$', 'django.views.static.serve', {'document_root': settings.STATIC_DIR, 'path': 'images/favicon.ico'}),
     url(r'^upload$', 'main.views.upload'),
     url(r'^files/(?P<download_key>.*?)/(?P<file_key>.*?)/(?P<download_session_key>.*?)/(?P<filename>.*?)$', 'main.views.downloadFile'),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DIR}),

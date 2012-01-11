@@ -18,18 +18,19 @@
              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
              })();
-        </script>
-    </head>
-    <body>
-        <div id="header">
-            <a href="/">
-                <img id="logo" src="/static/images/bitparcel-logo.png" />
-            </a>
-        </div>
-        <div id="centered">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </body>
-</html>
+         </script>
+     </head>
+     <body>
+         <div id="header">
+             <a href="/">
+                 <img id="logo" src="/static/images/bitparcel-logo.png" />
+             </a>
+         </div>
+         <div id="centered">
+             {% block content %}
+             {% endblock %}
+             <div id="footer">(c) 2012 bitparcel</div>
+         </div>
+     </body>
+ </html>
 

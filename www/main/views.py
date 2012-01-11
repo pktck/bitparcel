@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render_to_response
-from helpers import FileGetter, BitparcelDownload, DownloadSession
+from helpers import BitparcelDownload, DownloadSession
 from django.views.decorators.csrf import csrf_exempt
 from upload_handler import BitparcelUploadHandler
 
@@ -11,15 +11,29 @@ def front(req):
 
 @csrf_exempt
 def upload(req):
+    print 'pre'
     req.upload_handlers = [BitparcelUploadHandler()]
+    print 'post'
     
     thefile = req.FILES['thefile']
+    print 'poster'
     
-    return HttpResponse(req.build_absolute_uri('%s/%s' % (thefile.download_key, thefile.name.replace(' ', '-'))), mimetype='text/plain')
+    file_uri = '%s/%s' % (thefile.download_key, thefile.name.replace(' ', '-'))
+
+    print thefile.download_key, thefile.name
+
+    print 'file_uri:', file_uri
+
+    file_url = req.build_absolute_uri(file_uri)
+
+    print 'file_url:', file_url
+
+    return HttpResponse(file_url, mimetype='text/plain')
 
 
 def download(req, download_key, filename):
-    row = FileGetter.getRow(download_key)
+    row = BitparcelDownload.getRow(download_key)
+    print 'row:', row
     url_filename = row.filename.replace(' ', '-')
     if (not filename) or (filename != url_filename):
         return HttpResponseRedirect('/%s/%s' % (download_key, url_filename))
@@ -32,7 +46,6 @@ def download(req, download_key, filename):
    
 
 def downloadFile(req, download_key, file_key, download_session_key, filename):
-    print 'download_session_key:', download_session_key
     bitparcel_download = BitparcelDownload(download_key, file_key, download_session_key, filename)
 
     response = HttpResponse(bitparcel_download.getChunkyKeyObj(), mimetype='application/octet-stream')

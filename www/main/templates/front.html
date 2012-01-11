@@ -11,11 +11,22 @@ bitparcel ~ share files with friends | share files - upload files - send files -
             Drop your file here to upload!
         </div>
     </div>
-    <div id="step-1" class="instruction">
-        1. Drag a file here to share.
-    </div>
-    <div id="step-2" class="instruction">
-        2. Use this link to download.
+    <div id="steps">
+        <div id="step-1" class="instruction">
+            1. Drag a file here to share.
+        </div>
+        <div id="alt-upload">
+            <div>Or</div>
+            <div id="upload-button-wrapper">
+                <input type="file" id="upload-button" />
+            </div>
+            <div>
+                to select a file.
+            </div>
+        </div>
+        <div id="step-2" class="instruction">
+            2. Use this link to download.
+        </div>
     </div>
     <div id="download-link" class="download-link-normal">
         <div id="progress-bar">
@@ -29,13 +40,10 @@ bitparcel ~ share files with friends | share files - upload files - send files -
     </div>
     <div id="help-wrapper">
         <div id="arrow">
-            &nbsp;^  <br />
-            / \ <br />
-            &nbsp;|  <br />
-            &nbsp;|  <br />
+            &uarr;
         </div>
         <div id="help">
-            A link to your file will appear hear once you've uploaded it.
+            A link to your file will appear hear when it's done uploading. Drag a file onto the page to get started!
         </div>
     </div>
 </div>
@@ -117,14 +125,17 @@ bitparcel ~ share files with friends | share files - upload files - send files -
             $('#download-link').val(data.result).removeClass('download-link-normal').addClass('download-link-finished');
             $('#status').html('');
             $('#download-link').unbind('click');
-            $('#step-1').removeClass('instruction').addClass('instruction-grey');
+            $('#step-1').addClass('instruction-grey');
+            $('#steps').unbind('mouseenter mouseleave');
+            $('#upload-button').hide();
         },
         fail: function() {
             alert('There was an error uploading your file. Please try again.');
         },
         progress: function (e, data) {
+            var max_width = parseInt($('div#centered').css('width').replace(/\D/,''));
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            var progressBarWidth = parseInt(data.loaded / data.total * 698, 10);
+            var progressBarWidth = parseInt(data.loaded / data.total * max_width, 10) - 2;
             $('#progress-bar').css('width', progressBarWidth + 'px');
 
             if(progress < 100)
@@ -134,9 +145,21 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         },
     });
 
-    $('#download-link').click(function (){
+    $('#download-link').click(function() {
         $('#help-wrapper').fadeIn('slow');
     });
+
+    $('#steps').hover(function() {
+        $('#alt-upload').fadeTo('fast', 1);
+        console.log('in');
+    }, function() {
+        $('#alt-upload').fadeTo('fast', 0);
+        console.log('out');
+    });
+
+    $('#uplaod-click').click(function() {
+        $('#upload-button').click();
+    })
 </script>
 
 {% endblock %}

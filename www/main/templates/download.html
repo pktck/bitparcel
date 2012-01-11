@@ -23,7 +23,7 @@ Bitparcel | {{ row.filename }}
 <div id="download-progress-bar-wrapper">
     <div id="download-progress-bar">
         <div id="download-progress-bar-percentage">
-            Begining download...
+            Beginning download...
         </div>
     </div>
 </div>
@@ -42,14 +42,15 @@ Bitparcel | {{ row.filename }}
 
     function updateProgressBar(data)
     {
+        var max_width = parseInt($('div#centered').css('width').replace(/\D/,''));
         var percentage = parseInt(data.downloaded_size / file_size * 100);
-        var width = parseInt(data.downloaded_size / file_size * 698);
+        var width = parseInt(data.downloaded_size / file_size * max_width) - 2;
         $('#download-progress-bar').css('width', width + 'px')
         $('#download-progress-bar-percentage').html(percentage + '%');
         if (data.downloaded_size == file_size)
         {
             clearInterval(interval_id);
-            $('#download-progress-bar-percentage').html('Downlaod complete!');
+            $('#download-progress-bar-percentage').html('Download complete!');
         }
 
     }

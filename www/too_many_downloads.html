@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Bitparcel | {{ row.filename }}
+{% endblock %}
+
+
+{% block content %}
+
+{{ row.filename }}
+
+<div id="filename">{{ row.filename }}</div>
+has already been downloaded 5 times. We wish we could let you downlaod each file as many times as you want,
+but limiting the number of downlaods lets us keep bitparcel free.
+
+If you're interested in a paid / premium plan, send us an <a href="mailto:parcelmaster@bitparcel.com">email</a> with your thoughts.
+
+{% endblock %}

@@ -11,22 +11,12 @@ def front(req):
 
 @csrf_exempt
 def upload(req):
-    print 'pre'
     req.upload_handlers = [BitparcelUploadHandler()]
-    print 'post'
-    
+
     thefile = req.FILES['thefile']
-    print 'poster'
     
     file_uri = '%s/%s' % (thefile.download_key, thefile.name.replace(' ', '-'))
-
-    print thefile.download_key, thefile.name
-
-    print 'file_uri:', file_uri
-
     file_url = req.build_absolute_uri(file_uri)
-
-    print 'file_url:', file_url
 
     return HttpResponse(file_url, mimetype='text/plain')
 
@@ -49,7 +39,7 @@ def downloadFile(req, download_key, file_key, download_session_key, filename):
     bitparcel_download = BitparcelDownload(download_key, file_key, download_session_key, filename)
 
     response = HttpResponse(bitparcel_download.getChunkyKeyObj(), mimetype='application/octet-stream')
-    response['Content-Disposition'] = 'attachment; filename=%s' % bitparcel_download.row.filename
+    response['Content-Disposition'] = 'attachment; filename="%s"' % bitparcel_download.row.filename
     response['Content-Length'] = bitparcel_download.row.size
 
     return response

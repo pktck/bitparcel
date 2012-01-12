@@ -12,40 +12,9 @@ bucket = S3Connection(AWS_ACCESS_KEY, AWS_SECRET_KEY).get_bucket('bitparcel')
 files_table = NoDB.Manager(DATA_DIR).getDatabase('bitparcel').getTable('files')
 download_sessions_table = NoDB.Manager(DATA_DIR).getDatabase('bitparcel').getTable('download_sessions')
 
-#class FileGetter(object):
-    #@classmethod
-    #def getFile(cls, file_key):
-        #key_obj = Key(bucket)
-        #key_obj.key = file_key
-        #thefile = StringIO.StringIO()
-        #key_obj.get_file(thefile)
-        #thefile.seek(0)
-        #return thefile
+class FileExceedsSizeLimit(Exception):
+    pass
 
-    #@classmethod
-    #def getKeyObj(cls, file_key):
-        #key_obj = Key(bucket)
-        #key_obj.key = file_key
-        #return key_obj
-
-    #@classmethod
-    #def getChunkyKeyObj(cls, file_key, chunk_size=512000):
-        #key_obj = cls.getKeyObj(file_key)
-        #while True:
-            #chunk = key_obj.read(chunk_size)
-            #if len(chunk) == 0:
-                #break
-            #yield chunk
-
-    #@classmethod
-    #def getFileKey(cls, download_key):
-        #row = files_table.getRow(download_key)
-        #return row.file_key
-
-    #@classmethod
-    #def getRow(cls, download_key):
-        #row = files_table.getRow(download_key)
-        #return row
 
 class BitparcelDownload(object):
     def __init__(self, download_key, file_key, download_session_key, filename):

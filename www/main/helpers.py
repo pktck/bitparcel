@@ -26,7 +26,7 @@ class BitparcelDownload(object):
         if self.row.filename != filename:
             raise Exception("Download_key and file_key don't match filename.")
 
-        if self.row.downloads > 5:
+        if self.row.downloads >= 5:
             raise Exception('File has already been downloaded 5 times.')
 
         self.row.downloads += 1

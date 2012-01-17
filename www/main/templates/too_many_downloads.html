@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+Bitparcel | Too Many Downloads
+{% endblock %}
+
+{% block content %}
+<div id="too-many-downloads">
+    The file
+    <span id="filename-too-many">{{ row.filename }}</span>
+    has already been downloaded 5 times.
+    We're really sorry about this, but keeping the number of times a file can
+    be downloaded to 5 allows us to keep bitparcel free.
+</div>
+{% endblock %}

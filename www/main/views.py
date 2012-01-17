@@ -23,11 +23,14 @@ def upload(req):
 
 def download(req, download_key, filename):
     row = BitparcelDownload.getRow(download_key)
-    print 'row:', row
+
     url_filename = row.filename.replace(' ', '-')
     if (not filename) or (filename != url_filename):
         return HttpResponseRedirect('/%s/%s' % (download_key, url_filename))
-    
+
+    if row.downloads >= 5:
+        return render_to_response('too_many_downloads.html', locals())
+
     download_session_key = DownloadSession.create()
 
     file_url = '/files/%s/%s/%s/%s' % (download_key, row.file_key, download_session_key, row.filename)

@@ -51,12 +51,12 @@ bitparcel ~ share files with friends | share files - upload files - send files -
 
 <table id="q-and-a">
     <tr>
-        <td>Q:</td><td>Free file hosting, ay? Seems like a pretty good deal. Are there any restrictions?</td>
+        <td>Q:</td><td>Free file hosting, ay? Seems like a pretty good deal. Is there anything I should know?</td>
     </tr>
     <tr>
-        <td>A:</td><td>You're right - it is a pretty good deal! And yes, there are some restrictions.
+        <td>A:</td><td>You're right - it is a pretty good deal!
             Bitparcel will host your files for <b>1 month</b> or <b>5 downloads</b>, whichever comes first.
-            Files can be up to <b>2</b> <a href="http://en.wikipedia.org/wiki/Gibibyte">gibibytes</a>.</td>
+            Files can be up to <b>2</b> <a href="http://en.wikipedia.org/wiki/Gibibyte">gibibytes</a> in size.</td>
     </tr>
     <tr><td>&nbsp;</td><td></td></tr>
     <tr>
@@ -93,20 +93,30 @@ bitparcel ~ share files with friends | share files - upload files - send files -
 <script src="/static/js/file-upload/jquery.iframe-transport.js"></script>
 <script src="/static/js/file-upload/jquery.fileupload.js"></script>
 <script>
-    function dragStartHandler()
-    {
+    function dragStartHandler() {
         if($('#drop-note-wrapper').css('display') != 'block')
         {
             $('#drop-note-wrapper').fadeIn('fast');
         }
     }
 
-    function dragFinishedHandler(e)
-    {
+    function dragFinishedHandler(e) {
         if(e.type == 'fileuploaddrop' || e.clientX == 0 && e.clientY == 0)
         {
             $('#drop-note-wrapper').fadeOut('fast');
         }
+    }
+
+    function updateProgressBar(loaded, total) {
+        var max_width = parseInt($('div#centered').css('width').replace(/\D/,''));
+        var progress = parseInt(loaded / total * 100, 10);
+        var progressBarWidth = parseInt(loaded / total * max_width, 10) - 2;
+        $('#progress-bar').css('width', progressBarWidth + 'px');
+
+        if(progress < 100)
+            $('#status').html(progress + '%');
+        else
+            $('#status').html('Completing upload...');
     }
 
     $('body').bind('dragenter', dragStartHandler);
@@ -115,33 +125,37 @@ bitparcel ~ share files with friends | share files - upload files - send files -
     $('body').fileupload({
         url: '/upload',
         paramName: 'thefile',
+        add: function(e, data) {
+            $('#steps').unbind('mouseenter mouseleave');
+            $('#alt-upload').fadeTo(2000, 0);
+            $('#status').html('Starting upload...');
+            data.submit();
+        },
         drop: function(e) {
             dragFinishedHandler(e);
             $('body').unbind('dragenter');
             $('body').fileupload('destroy');
         },
         done: function(e, data) {
+            console.log('loaded ' + data.loaded);
+            console.log('total ' + data.total);
+            // in Firefox, the progress function doesn't get called for small files,
+            // so we have to make sure the progress bar gets to 100%
+            updateProgressBar(1, 1);
             $('#download-link-text').val(data.result).removeClass('download-link-text-waiting').addClass('download-link-text-finished');
             $('#download-link').val(data.result).removeClass('download-link-normal').addClass('download-link-finished');
             $('#status').html('');
             $('#download-link').unbind('click');
             $('#step-1').addClass('instruction-grey');
-            $('#steps').unbind('mouseenter mouseleave');
+            //$('#steps').unbind('mouseenter mouseleave');
             $('#upload-button').hide();
+            console.log('done!');
         },
         fail: function() {
             alert('There was an error uploading your file. Please try again.');
         },
         progress: function (e, data) {
-            var max_width = parseInt($('div#centered').css('width').replace(/\D/,''));
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            var progressBarWidth = parseInt(data.loaded / data.total * max_width, 10) - 2;
-            $('#progress-bar').css('width', progressBarWidth + 'px');
-
-            if(progress < 100)
-            $('#status').html(progress + '%');
-            else
-            $('#status').html('Completing upload...');
+            updateProgressBar(data.loaded, data.total);
         },
     });
 
@@ -149,12 +163,8 @@ bitparcel ~ share files with friends | share files - upload files - send files -
         $('#help-wrapper').fadeIn('slow');
     });
 
-    $('#steps').hover(function() {
+    $('#steps').mouseenter(function() {
         $('#alt-upload').fadeTo('fast', 1);
-        console.log('in');
-    }, function() {
-        $('#alt-upload').fadeTo('fast', 0);
-        console.log('out');
     });
 
     $('#uplaod-click').click(function() {
